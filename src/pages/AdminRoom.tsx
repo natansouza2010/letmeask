@@ -1,5 +1,7 @@
 import logoImg from '../assets/images/logo.svg';
 import deleteImg from '../assets/images/delete.svg';
+import  checkImg from '../assets/images/check.svg';
+import  answerImg from '../assets/images/answer.svg';
 
 
 import { Button } from '../components/Button'
@@ -47,6 +49,21 @@ export const AdminRoom = () => {
         history.push('/');
     }
 
+    
+    const handleCheckQuestionAsAnswered = async (questionId: string) =>{
+        await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+            isAnswered: true,
+        })
+            
+        
+    }
+
+    const handleHighLightQuestion = async (questionId: string) =>{
+        await database.ref(`rooms/${roomId}/questions/${questionId}`).update({
+            isHighligted: true,
+        })
+    }
+
 
     return (
         <div id="page-room">
@@ -74,8 +91,29 @@ export const AdminRoom = () => {
                                 key={question.id}
                                 content={question.content}
                                 author={question.author}
+                                isHighlighted = {question.isHighligted}
+                                isAnswered = {question.isAnswered}
 
                             >  
+                            
+                                {!question.isAnswered && ( 
+                                    <>
+                                    <button
+                                    type="button"
+                                    onClick={()=> handleCheckQuestionAsAnswered(question.id)}
+                                    >
+                                        <img src={checkImg} alt="Marcar pergunta como respondida"/>
+                                    </button>
+    
+                                    <button
+                                    type="button"
+                                    onClick={()=> handleHighLightQuestion(question.id)}
+                                    >
+                                        <img src={answerImg} alt="Dar destaque à pergunta"/>
+                                    </button>
+                                    </>
+                                )}
+
                                 <button
                                 type="button"
                                 onClick={()=> handleDeleteQuestion(question.id)}
