@@ -1,9 +1,9 @@
 import { database } from '../services/firebase';
 
 
-import {Link, useHistory} from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { FormEvent, useState} from 'react';
+import { FormEvent, useState } from 'react';
 
 import illustrationImg from '../assets/images/illustration.svg'
 import logoImg from '../assets/images/logo.svg'
@@ -17,13 +17,13 @@ import { Button } from '../components/Button';
 
 export const NewRoom = () => {
     const history = useHistory();
-    const {user} = useAuth();
-    const [newRoom, setNewRoom] = useState(''); 
+    const { user } = useAuth();
+    const [newRoom, setNewRoom] = useState('');
 
-    const handleCreateRoom = async (event : FormEvent) => {
+    const handleCreateRoom = async (event: FormEvent) => {
         event.preventDefault();
         console.log(newRoom);
-        if(newRoom.trim() === ''){
+        if (newRoom.trim() === '') {
             return;
         }
         const roomRef = database.ref('rooms');
@@ -35,8 +35,8 @@ export const NewRoom = () => {
 
         history.push(`/rooms/${firebaseRoom.key}`);
     }
-   
-    return(
+
+    return (
         <div id="page-auth">
             <aside>
                 <img src={illustrationImg} alt="Ilustração simbolizando perguntas e respostas" />
@@ -47,8 +47,8 @@ export const NewRoom = () => {
                 <div className="main-content">
                     <img src={logoImg} alt="Logo - Letmeask" />
                     <h2>Criar uma nova sala</h2>
-                    <form  onSubmit={handleCreateRoom}>
-                        <input 
+                    <form onSubmit={handleCreateRoom}>
+                        <input
                             type="text"
                             placeholder="Nome da sala"
                             onChange={event => setNewRoom(event.target.value)}
@@ -57,7 +57,7 @@ export const NewRoom = () => {
                         <Button type="submit">
                             Criar sala
                         </Button>
-                        
+
                     </form>
                     <p>
                         Quer entrar  em uma sala existente? <Link to="/">Clique aqui</Link>
